@@ -1,1 +1,4 @@
-# Webhook-Cache
+This is a super simple piece repo on caching of discord webhooks of specific products on a specific site. This means that your main public success webhook wouldn't get ratelimited, as it will only send a webhook for each specific product on a specific site every minute.
+
+Usage:
+If you wish to use this repo then you will need to make a `.env` file, and fill this out in the format the `.env.example` is filled out, with the main discord webhook you want to send the cache checked webhook to, along with an api key to make sure not just anyone can send webhooks via your webhook. Please note you may also need to change the fields and how the product and site are grabbed dependent on what your webhooks look like, i did it based on my bot https://www.miragebots.io/ but any change should be easy enough to make. If you have any questions feel free to dm me on discord. Thanks!
