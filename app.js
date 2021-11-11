@@ -11,8 +11,6 @@ const port = process.env.PORT || 8080
 // Webhook cache example
 // {
 //     "16231695-JD-UK": {
-//         "site" : "JD-UK",
-//         "product": "16231695",
 //         "timestamp": 1500000000000
 //     }
 // }
