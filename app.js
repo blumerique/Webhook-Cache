@@ -1,5 +1,8 @@
-var express = require('express')
-var bodyParser = require('body-parser')
+import express from 'express'
+import bodyParser from 'body-parser'
+import fetch from 'node-fetch';
+import dotenv from 'dotenv'
+dotenv.config()
 var app = express()
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -17,20 +20,21 @@ let WEBHOOK_CACHE = {}
 
 app.post('/webhook', async function (req, res) {
     // checks for unauthorized people trying to access the webhook
-    if (req.header("x-api-key") !== process.env.API_KEY) {
-        res.status(401).send("Failed to send webhook, unauthorized");
-    }
+    // if (req.header("x-api-key") !== process.env.API_KEY) {
+    //     res.status(401).send("Failed to send webhook, unauthorized");
+    // }
     try {
         // this will be different for each webhook dependent on your webhook format
-        webhookBody = JSON.parse(JSON.stringify(req.body))
-        webhookFields = webhookBody["embeds"][0]["fields"]
-        site = webhookFields[1]["value"]
-        product = webhookFields[2]["value"]
-    } catch {
+        var webhookFields = JSON.parse(JSON.stringify(req.body))["embeds"][0]["fields"]
+    } catch (e) {
+        console.log(e)
         res.status(400).send("Failed to parse webhook, check format!")
     } finally {
+        let site = webhookFields[1]["value"]
+        let product = webhookFields[2]["value"]
         // checks if the webhook is already in the cache
         if (checkWebhookInCache(site, product)) {
+            console.log("CACHED")
             res.status(200).send("Webhook already in cache")
         } else {
             // sends the webhook and add to cache
@@ -47,7 +51,9 @@ app.post('/webhook', async function (req, res) {
                     "product": product,
                     "timestamp": Date.now(),
                 }
-            } catch {
+                console.log("NOT CACHED")
+            } catch (e) {
+                console.log(e)
                 res.status(500).send("Failed to send webhook, error processing request")
             }
         }
