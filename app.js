@@ -20,9 +20,9 @@ let WEBHOOK_CACHE = {}
 
 app.post('/webhook', async function (req, res) {
     // checks for unauthorized people trying to access the webhook
-    // if (req.header("x-api-key") !== process.env.API_KEY) {
-    //     res.status(401).send("Failed to send webhook, unauthorized");
-    // }
+    if (req.header("x-api-key") !== process.env.API_KEY) {
+        res.status(401).send("Failed to send webhook, unauthorized");
+    }
     try {
         // this will be different for each webhook dependent on your webhook format
         var webhookFields = JSON.parse(JSON.stringify(req.body))["embeds"][0]["fields"]
