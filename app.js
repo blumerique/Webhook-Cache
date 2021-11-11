@@ -64,7 +64,7 @@ app.post('/webhook', async function (req, res) {
 
 function checkWebhookInCache(site, product) {
     if (WEBHOOK_CACHE[`${product}-${site}`]) {
-        if (WEBHOOK_CACHE[`${product}-${site}`].timestamp > Date.now() - 150000) {
+        if (WEBHOOK_CACHE[`${product}-${site}`].timestamp > Date.now() - 60000) {
             return true
         }
     }
