@@ -48,6 +48,7 @@ app.post('/webhook', async function (req, res) {
                     "product": product,
                     "timestamp": Date.now(),
                 }
+                res.status(200).send("Webhook sent and added to cache")
             } catch {
                 res.status(500).send("Failed to send webhook, error processing request")
             }
