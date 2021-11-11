@@ -6,6 +6,7 @@ dotenv.config()
 var app = express()
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+const port = process.env.PORT || 8080
 
 // Webhook cache example
 // {
@@ -69,5 +70,7 @@ function checkWebhookInCache(site, product) {
     return false
 }
 
-console.log("+++ Listening +++")
-app.listen(3000, function () {})
+//start the server
+app.listen(port,()=>{
+    console.log(`Listening on port ${port}`)
+});
