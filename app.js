@@ -26,15 +26,13 @@ app.post('/webhook', async function (req, res) {
     try {
         // this will be different for each webhook dependent on your webhook format
         var webhookFields = JSON.parse(JSON.stringify(req.body))["embeds"][0]["fields"]
-    } catch (e) {
-        console.log(e)
+    } catch {
         res.status(400).send("Failed to parse webhook, check format!")
     } finally {
         let site = webhookFields[1]["value"]
         let product = webhookFields[2]["value"]
         // checks if the webhook is already in the cache
         if (checkWebhookInCache(site, product)) {
-            console.log("CACHED")
             res.status(200).send("Webhook already in cache")
         } else {
             // sends the webhook and add to cache
@@ -51,9 +49,7 @@ app.post('/webhook', async function (req, res) {
                     "product": product,
                     "timestamp": Date.now(),
                 }
-                console.log("NOT CACHED")
-            } catch (e) {
-                console.log(e)
+            } catch {
                 res.status(500).send("Failed to send webhook, error processing request")
             }
         }
